@@ -6,7 +6,7 @@ defineOptions({
 const modules = import.meta.glob('./*.vue')
 const pages = Object.entries(modules)
   .map(([path]) => (path.split('/').pop() || '').replace(/\.\w+$/, ''))
-  .filter(page => page !== '[...all]')
+  .filter(page => ['[...all]', 'index'].includes(page) === false)
 
 const router = useRouter()
 </script>
@@ -16,13 +16,10 @@ const router = useRouter()
     <h1 class="text-3xl">
       movies
     </h1>
-    <div
-      v-for="page in pages"
-      :key="page"
-      class="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5"
-      @click="router.push(`/${page}`)"
-    >
-      <TheButton>{{ page }}</TheButton>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
+      <TheButton v-for="page in pages" :key="page" @click="router.push(`/${page}`)">
+        {{ page }}
+      </TheButton>
     </div>
   </div>
 </template>
