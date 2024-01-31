@@ -18,16 +18,16 @@ const style = ref('font-size: 60px; color: white; text-shadow: 0.1em 0.1em 0.5em
 <template>
   <div class="flex flex-wrap items-center gap-4 px4 py10">
     <WithLabel label="Start Time">
-      <TheInput v-model="startTimeInput" placeholder="Start time" />
+      <Input v-model="startTimeInput" placeholder="Start time" />
     </WithLabel>
     <WithLabel label="Formatter">
-      <TheInput v-model="formatter" placeholder="Formatter" />
+      <Input v-model="formatter" placeholder="Formatter" />
     </WithLabel>
-    <TheCheckbox v-model="reverse">
+    <Checkbox v-model:checked="reverse">
       Reverse order
-    </TheCheckbox>
+    </Checkbox>
     <WithLabel label="Style" class="w-full">
-      <TheInput v-model="style" placeholder="Style" class="flex-auto" />
+      <Input v-model="style" placeholder="Style" class="flex-auto" />
     </WithLabel>
   </div>
   <div :style="style" class="h-100vh w-100vw flex items-center justify-center bg-[#00ff00]">

@@ -17,9 +17,9 @@ const router = useRouter()
       movies
     </h1>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-5">
-      <TheButton v-for="page in pages" :key="page" @click="router.push(`/${page}`)">
+      <Button v-for="page in pages" :key="page" size="lg" @click="router.push(`/${page}`)">
         {{ page }}
-      </TheButton>
+      </Button>
     </div>
   </div>
 </template>

@@ -42,6 +42,15 @@ export default defineConfig({
         {
           // add any other imports you were relying on
           'vue-router/auto': ['useLink'],
+          'vee-validate': [
+            'useForm',
+          ],
+          '@vee-validate/zod': [
+            'toTypedSchema',
+          ],
+          'zod': [
+            ['*', 'z'],
+          ],
         },
       ],
       dts: true,
