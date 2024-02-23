@@ -1,13 +1,8 @@
-<script lang="ts">
-import type { InjectionKey } from 'vue'
-</script>
-
 <script lang="ts" setup>
 import { provide, useAttrs } from 'vue'
 import { useId } from 'radix-vue'
+import { FORM_ITEM_INJECTION_KEY } from './formItem'
 import { cn } from '~/lib/utils'
-
-export const FORM_ITEM_INJECTION_KEY = Symbol() as InjectionKey<string>
 
 defineOptions({
   inheritAttrs: false,

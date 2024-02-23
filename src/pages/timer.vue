@@ -1,36 +1,69 @@
 <script setup lang="ts">
-const startTimeInput = ref(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-const startTime = computed(() => dayjs(startTimeInput.value || undefined))
-const formatter = ref('HH:mm:ss')
+const formSchema = toTypedSchema(z.object({
+  startTimeInput: z.custom<string>(val => typeof val === 'string' && dayjs(val).isValid()),
+  formatter: z.string(),
+  reverse: z.boolean(),
+  style: z.string(),
+}))
+
+const { values: form } = useForm({
+  initialValues: {
+    startTimeInput: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    formatter: 'HH:mm:ss',
+    reverse: false,
+    style: 'font-size: 60px; color: white; text-shadow: 0.1em 0.1em 0.5em black;',
+  },
+  validationSchema: formSchema,
+})
+
+const startTime = computed(() => dayjs(form.startTimeInput || undefined))
 const now = useNow()
-const reverse = ref(false)
 const offset = computed(() =>
-  reverse.value
+  form.reverse
     ? 0 - dayjs().valueOf() - startTime.value.valueOf()
     : dayjs().valueOf() - startTime.value.valueOf())
 const formattedTime = computed(() =>
-  reverse.value
-    ? dayjs(0 - now.value.valueOf()).subtract(offset.value, 'ms').format(formatter.value)
-    : dayjs(now.value).subtract(offset.value, 'ms').format(formatter.value))
-const style = ref('font-size: 60px; color: white; text-shadow: 0.1em 0.1em 0.5em black;')
+  form.reverse
+    ? dayjs(0 - now.value.valueOf()).subtract(offset.value, 'ms').format(form.formatter)
+    : dayjs(now.value).subtract(offset.value, 'ms').format(form.formatter))
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-4 px4 py10">
-    <WithLabel label="Start Time">
-      <Input v-model="startTimeInput" placeholder="Start time" />
-    </WithLabel>
-    <WithLabel label="Formatter">
-      <Input v-model="formatter" placeholder="Formatter" />
-    </WithLabel>
-    <Checkbox v-model:checked="reverse">
-      Reverse order
-    </Checkbox>
-    <WithLabel label="Style" class="w-full">
-      <Input v-model="style" placeholder="Style" class="flex-auto" />
-    </WithLabel>
-  </div>
-  <div :style="style" class="h-100vh w-100vw flex items-center justify-center bg-[#00ff00]">
+  <form class="flex flex-col gap-4 p4">
+    <FormField v-slot="{ componentField }" name="startTimeInput">
+      <FormItem>
+        <FormLabel>Start Time</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+        </FormControl>
+      </FormItem>
+    </FormField>
+    <FormField v-slot="{ componentField }" name="formatter">
+      <FormItem>
+        <FormLabel>Formatter</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+        </FormControl>
+      </FormItem>
+    </FormField>
+    <FormField v-slot="{ value, handleChange }" name="reverse">
+      <FormItem>
+        <FormLabel>Reverse order</FormLabel>
+        <FormControl>
+          <Checkbox :checked="value" @update:checked="handleChange" />
+        </FormControl>
+      </FormItem>
+    </FormField>
+    <FormField v-slot="{ componentField }" name="style">
+      <FormItem>
+        <FormLabel>Style</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+        </FormControl>
+      </FormItem>
+    </FormField>
+  </form>
+  <div :style="form.style" class="h-100vh w-100vw flex items-center justify-center bg-[#00ff00]">
     {{ formattedTime }}
   </div>
 </template>

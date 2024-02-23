@@ -17,15 +17,14 @@ declare module 'vue' {
     Checkbox: typeof import('./src/components/ui/checkbox/Checkbox.vue')['default']
     FormControl: typeof import('./src/components/ui/form/FormControl.vue')['default']
     FormDescription: typeof import('./src/components/ui/form/FormDescription.vue')['default']
+    FormField: typeof import('vee-validate')['Field']
     FormItem: typeof import('./src/components/ui/form/FormItem.vue')['default']
     FormLabel: typeof import('./src/components/ui/form/FormLabel.vue')['default']
     FormMessage: typeof import('./src/components/ui/form/FormMessage.vue')['default']
     Input: typeof import('./src/components/ui/input/Input.vue')['default']
+    Label: typeof import('./src/components/ui/label/Label.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheButton: typeof import('./src/components/TheButton.vue')['default']
-    TheCheckbox: typeof import('./src/components/TheCheckbox.vue')['default']
-    TheInput: typeof import('./src/components/TheInput.vue')['default']
     WithLabel: typeof import('./src/components/WithLabel.vue')['default']
   }
 }
