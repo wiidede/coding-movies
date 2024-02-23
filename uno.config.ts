@@ -2,42 +2,39 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
+  presetTypography,
   presetUno,
   transformerDirectives,
+  transformerVariantGroup,
 } from 'unocss'
+import { presetShadcn } from './preset.shadcn'
 
 export default defineConfig({
   shortcuts: [
-    ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
-    ['icon-btn', 'text-[0.9em] inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600 !outline-none'],
+    {
+      'animate-accordion-up': 'accordion-up',
+      'animate-accordion-down': 'accordion-down',
+      'animate-collapsible-up': 'collapsible-up',
+      'animate-collapsible-down': 'collapsible-down',
+      'grid-responsive': 'grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1',
+    },
   ],
-  transformers: [
-    transformerDirectives(),
-  ],
+  content: {
+    pipeline: {
+      include: [/\.ts/, /\.vue$/, /\.vue\?vue/],
+    },
+  },
   presets: [
     presetUno(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
-      warn: true,
     }),
+    presetTypography(),
+    presetShadcn(),
   ],
-  theme: {
-    colors: {
-      primary: {
-        DEFAULT: 'var(--color-primary-DEFAULT)',
-        50: 'var(--color-primary-50)',
-        100: 'var(--color-primary-100)',
-        200: 'var(--color-primary-200)',
-        300: 'var(--color-primary-300)',
-        400: 'var(--color-primary-400)',
-        500: 'var(--color-primary-500)',
-        600: 'var(--color-primary-600)',
-        700: 'var(--color-primary-700)',
-        800: 'var(--color-primary-800)',
-        900: 'var(--color-primary-900)',
-        950: 'var(--color-primary-950)',
-      },
-    },
-  },
+  transformers: [
+    transformerDirectives(),
+    transformerVariantGroup(),
+  ],
 })

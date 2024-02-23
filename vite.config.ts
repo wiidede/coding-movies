@@ -6,7 +6,6 @@ import Vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
-import VueMacros from 'unplugin-vue-macros/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 
@@ -17,16 +16,10 @@ export default defineConfig({
     },
   },
   plugins: [
-    VueMacros({
-      defineOptions: false,
-      defineModels: false,
-      plugins: {
-        vue: Vue({
-          script: {
-            propsDestructure: true,
-            defineModel: true,
-          },
-        }),
+    Vue({
+      script: {
+        propsDestructure: true,
+        defineModel: true,
       },
     }),
 
@@ -42,6 +35,15 @@ export default defineConfig({
         {
           // add any other imports you were relying on
           'vue-router/auto': ['useLink'],
+          'vee-validate': [
+            'useForm',
+          ],
+          '@vee-validate/zod': [
+            'toTypedSchema',
+          ],
+          'zod': [
+            ['*', 'z'],
+          ],
         },
       ],
       dts: true,
@@ -54,6 +56,14 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     Components({
       dts: true,
+      resolvers: [
+        (name) => {
+          if (name === 'Form')
+            return { name, from: 'vee-validate' }
+          if (name === 'FormField')
+            return { name: 'Field', as: name, from: 'vee-validate' }
+        },
+      ],
     }),
 
     // https://github.com/antfu/unocss
